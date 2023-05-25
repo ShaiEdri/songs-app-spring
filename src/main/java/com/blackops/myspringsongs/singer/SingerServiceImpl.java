@@ -16,7 +16,7 @@ public class SingerServiceImpl implements SingerService {
     }
 
     @Override
-    public Set<Singer> findByLastName(String lastName) {
+    public List<Singer> findByLastName(String lastName) {
         return singerRepository.findAllByLastName(lastName);
     }
 
@@ -28,7 +28,7 @@ public class SingerServiceImpl implements SingerService {
     }
 
     @Override
-    public void deleteById() {
-
+    public void deleteById(Long id) {
+        singerRepository.deleteById(id);
     }
 }

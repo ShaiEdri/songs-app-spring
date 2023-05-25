@@ -4,6 +4,7 @@ import com.blackops.myspringsongs.singer.Singer;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.*;
 
@@ -28,6 +29,7 @@ public class Song{
     private List<Singer> singers = new ArrayList<>();
     public Song(){}
 
+    @Builder
     public Song(Long id, String name, Double length) {
         this.id = id;
         this.name = name;

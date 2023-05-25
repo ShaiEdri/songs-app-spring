@@ -4,5 +4,6 @@ import java.util.List;
 
 public interface SongService {
     List<Song> getSongs();
-    void deleteById();
+    List<Song>findByLengthGreaterThan(Double length);
+    void deleteById(Long id);
 }

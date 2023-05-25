@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ public class Singer extends Person {
     private List<Song> songs = new ArrayList<>();
 
     public Singer(){}
+    @Builder
     public Singer(Long id, String firstName, String lastName) {
         super(id, firstName, lastName);
     }

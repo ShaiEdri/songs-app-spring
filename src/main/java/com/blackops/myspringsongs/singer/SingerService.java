@@ -5,6 +5,6 @@ import java.util.Set;
 
 public interface SingerService {
     List<Singer> getSingers();
-    void deleteById();
-    Set<Singer> findByLastName(String lastName);
+    void deleteById(Long id);
+    List<Singer> findByLastName(String lastName);
 }

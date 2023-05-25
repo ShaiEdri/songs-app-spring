@@ -15,13 +15,16 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public List<Song> getSongs() {
-        List<Song> songs = new ArrayList<>();
-        //songRepository.findAll().forEach(e-> songs.add(e));
         return songRepository.findAll();
     }
 
     @Override
-    public void deleteById() {
+    public List<Song> findByLengthGreaterThan(Double length) {
+        return songRepository.findByLengthGreaterThan(length);
+    }
 
+    @Override
+    public void deleteById(Long id) {
+        songRepository.deleteById(id);
     }
 }
