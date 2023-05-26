@@ -1,5 +1,6 @@
 package com.blackops.myspringsongs.song;
 
+import com.blackops.myspringsongs.producer.Producer;
 import com.blackops.myspringsongs.singer.Singer;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -15,7 +16,8 @@ public class Song{
     private Long id;
     private String name;
     private Double length;
-
+    @ManyToOne
+    private Producer producer;
 //    @ManyToMany(mappedBy = "songs")
 //    private Set<Singer> singers = new HashSet<>();
 
@@ -34,6 +36,14 @@ public class Song{
         this.id = id;
         this.name = name;
         this.length = length;
+    }
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
     }
 
     public Long getId() {
