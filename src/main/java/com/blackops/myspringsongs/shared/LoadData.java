@@ -21,9 +21,15 @@ public class LoadData implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        Singer singer1 = new Singer();
-        singer1.setFirstName("bob");
-        singer1.setLastName("Dylan");
+        saveData();
+    }
+    private void saveData() {
+        Singer singer1 = Singer.builder().firstName("Bob")
+                .lastName("Dylan")
+                .city("Migdal")
+                .address("Azza")
+                .state("Israel")
+                .build();
 
         Singer singer2 = new Singer();
         singer2.setFirstName("bob");

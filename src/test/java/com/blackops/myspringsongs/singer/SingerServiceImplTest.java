@@ -1,6 +1,8 @@
 package com.blackops.myspringsongs.singer;
 
 import com.blackops.myspringsongs.MyspringSongsApplication;
+import com.blackops.myspringsongs.song.Song;
+import com.blackops.myspringsongs.song.SongService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +32,8 @@ class SingerServiceImplTest {
     static Singer user2;
     @BeforeAll
     static void startUp(){
-        user1 = new Singer(1L,"John", "Doe");
-        user2 = new Singer(2L, "Jane", "Smith");
+        user1 = new Singer(1L,"John", "Doe", "rose 5", "Dimone", "Israel");
+        user2 = new Singer(2L, "Jane", "Smith", "black 5", "Jerikho", "Israel");
     }
     @BeforeEach
     void setUp() {

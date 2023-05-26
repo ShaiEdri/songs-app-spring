@@ -15,10 +15,6 @@ import java.util.Set;
 
 @Entity
 public class Singer extends Person {
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "singer_song", joinColumns = @JoinColumn(name = "singer_id"),
-//            inverseJoinColumns = @JoinColumn(name = "song_id"))
-//    private Set<Song> songs = new HashSet<>();
 
     @ManyToMany(mappedBy = "singers")
     @JsonIdentityInfo(
@@ -28,9 +24,12 @@ public class Singer extends Person {
 
     public Singer(){}
     @Builder
-    public Singer(Long id, String firstName, String lastName) {
-        super(id, firstName, lastName);
+    public Singer(Long id, String firstName, String lastName, String address,
+                  String city, String state) {
+        super(id, firstName, lastName, address, city, state);
     }
+
+
     public List<Song> getSongs() {
         return songs;
     }
