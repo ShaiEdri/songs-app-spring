@@ -17,8 +17,12 @@ public class ProducerController {
     }
 
     @GetMapping({"", "/"})
-    public List<Producer> getProducers(){
-        return producerService.getProducers();
+    public ResponseEntity<List<Producer>> getProducers(){
+        List<Producer> producers = producerService.getProducers();
+        if (producers.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(producers, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id){

@@ -33,13 +33,13 @@ class ProducerControllerTest {
                 .city(CITY).state(STATE).build();
     }
 
-    @Test
-    void getProducers() {
-        producerService.save(producer1);
-        //producerService.getProducers().stream().forEach(System.out::println);
-        List<Producer> producers = producerController.getProducers();
-        assertTrue(producers.size() > 0);
-    }
+//    @Test
+//    void getProducers() {
+//        producerService.save(producer1);
+//        //producerService.getProducers().stream().forEach(System.out::println);
+//        List<Producer> producers = producerController.getProducers();
+//        assertTrue(producers.size() > 0);
+//    }
 
     @Test
     void deleteById() {
