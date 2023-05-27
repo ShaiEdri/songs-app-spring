@@ -21,7 +21,9 @@ public class Producer extends Person {
             property = "id")
     private List<Song> songs = new ArrayList<>();
 
-    public Producer() {}
+    public Producer() {
+    }
+
     @Builder
     public Producer(Long id, String firstName
             , String lastName, String address, String city, String state) {
@@ -34,5 +36,13 @@ public class Producer extends Person {
 
     public void setSongs(List<Song> songs) {
         this.songs = songs;
+    }
+
+    @Override
+    public String toString() {
+        return "Producer{" +
+                super.toString() +
+                "songs=" + songs +
+                '}';
     }
 }
