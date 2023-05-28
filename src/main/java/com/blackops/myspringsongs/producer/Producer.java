@@ -24,6 +24,11 @@ public class Producer extends Person {
     public Producer() {
     }
 
+    public Producer(Producer producer) {
+        super(producer.getId(), producer.getFirstName(), producer.getLastName(),
+                producer.getAddress(), producer.getCity(), producer.getState());
+        songs = new ArrayList<>(producer.getSongs());
+    }
     @Builder
     public Producer(Long id, String firstName
             , String lastName, String address, String city, String state) {

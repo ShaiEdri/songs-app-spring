@@ -67,21 +67,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<goals>-->
-<!--							<goal>build-image</goal>-->
-<!--						</goals>-->
-<!--						<configuration>-->
-<!--							<image>-->
-<!--								<builder>org.springframework.boot:builder:DOCKER</builder>-->
-<!--								<volumes>-->
-<!--									<volume>/home/shaiedri/data/myspringsongs/:/app/data</volume>-->
-<!--								</volumes>-->
-<!--							</image>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-<!--				</executions>-->
 				<configuration>
 					<excludes>
 						<exclude>
@@ -91,7 +76,18 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -101,6 +97,7 @@
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>3.0.0-M5</version>
 			</plugin>
+
 		</plugins>
 	</reporting>
 

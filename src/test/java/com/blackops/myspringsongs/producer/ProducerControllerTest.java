@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,7 @@ class ProducerControllerTest {
     @Autowired
     private ProducerService producerService;
     private ProducerController producerController;
-    Producer producer1;
+    Producer testedProducer;
     private final Long ID = 15L;
     private final String FIRST_NAME = "Shai";
     private final String LAST_NAME = "Edri";
@@ -29,7 +29,7 @@ class ProducerControllerTest {
     @BeforeEach
     void setUp() {
         producerController = new ProducerController(producerService);
-        producer1 = Producer.builder().firstName(FIRST_NAME).lastName(LAST_NAME).address(ADDRESS)
+        testedProducer = Producer.builder().firstName(FIRST_NAME).lastName(LAST_NAME).address(ADDRESS)
                 .city(CITY).state(STATE).build();
     }
 
@@ -43,7 +43,7 @@ class ProducerControllerTest {
 
     @Test
     void deleteById() {
-        producerService.save(producer1);
+        producerService.save(testedProducer);
         //producerService.getProducers().stream().forEach(System.out::println);
         producerController.deleteById(2L);
         Optional<Producer> producerOptional = producerService.findById(2L);
@@ -52,21 +52,21 @@ class ProducerControllerTest {
 
     @Test
     void getProducerById() {
-        producerService.save(producer1);
+        producerService.save(testedProducer);
         Producer producer = producerController.getProducerById(2L).getBody();
         assertNotNull(producer);
     }
 
     @Test
     void findByLastNameAndFirstNameAllIgnoreCase() {
-        producerService.save(producer1);
+        producerService.save(testedProducer);
         List<Producer> producersFound = producerController.findByLastNameAndFirstNameAllIgnoreCase(LAST_NAME.toLowerCase(), FIRST_NAME.toUpperCase()).getBody();
         assertEquals(producersFound.size(), 1);
     }
 
     @Test
     void addProducer() {
-        producerController.addProducer(producer1);
+        producerController.addProducer(testedProducer);
         //List<Producer> producers = producerService.getProducers();
         List<Producer> producers = producerService
                 .findByLastNameAndFirstNameAllIgnoreCase(LAST_NAME, FIRST_NAME);
@@ -75,19 +75,24 @@ class ProducerControllerTest {
 
     @Test
     void updateProducerByIdLoadObject() {
-        producerService.save(producer1);
+        producerService.save(testedProducer);
         List<Producer> producers = producerService.findByLastNameAndFirstNameAllIgnoreCase(LAST_NAME, FIRST_NAME);
         Long id = producers.get(producers.size()-1).getId();
-        producer1.setLastName("ForTest");
-        Producer producerUpdated = producerController.updateProducerByIdLoadObject(id, producer1).getBody();
+        testedProducer.setLastName("ForTest");
+        Producer producerUpdated = producerController.updateProducerByIdLoadObject(id, testedProducer).getBody();
         assertTrue(producerUpdated.getLastName().equals("ForTest"));
     }
 
     @Test
     void updateProducerByIdNoLoadObject() {
-        producerService.save(producer1);
-        producer1.setLastName("ForTest");
-        HttpStatus updated = producerController.updateProducerByIdNoLoadObject(2L, producer1).getBody();
-        assertEquals(updated, HttpStatus.OK);
+        producerService.save(testedProducer);
+        List<Producer> allproducers = producerService.getProducers();
+        List<Producer> producers = producerService.findByLastNameAndFirstNameAllIgnoreCase(LAST_NAME, FIRST_NAME);
+        Long id = producers.get(producers.size()-1).getId();
+        Producer producerToUpdate = new Producer(testedProducer);
+        producerToUpdate.setLastName("ForTest");
+        ResponseEntity<HttpStatus> updated = producerController.updateProducerByIdNoLoadObject(id, producerToUpdate);
+        assertEquals(updated.getStatusCode(), HttpStatus.OK);
+        //assertNotEquals(updated.getStatusCode(), HttpStatus.OK);
     }
 }
