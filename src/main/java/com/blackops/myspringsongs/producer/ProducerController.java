@@ -16,6 +16,11 @@ public class ProducerController {
         this.producerService = producerService;
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<Producer> addProducer(@RequestBody Producer producer){
+        return new ResponseEntity<>(producerService.save(producer), HttpStatus.OK);
+    }
+
     @GetMapping({"", "/"})
     public ResponseEntity<List<Producer>> getProducers(){
         List<Producer> producers = producerService.getProducers();
@@ -24,12 +29,8 @@ public class ProducerController {
         }
         return new ResponseEntity<>(producers, HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id){
-            producerService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-    }
-    @GetMapping("/getbyid")
+
+    @GetMapping("/{id}")
     public ResponseEntity<Producer> getProducerById(@PathVariable Long id){
         Optional<Producer> producerOptional = producerService.findById(id);
         if (producerOptional.isEmpty()){
@@ -37,7 +38,6 @@ public class ProducerController {
         }
         return new ResponseEntity<>(producerOptional.get(), HttpStatus.OK);
     }
-
     @GetMapping("/getbyfullname")
     public ResponseEntity<List<Producer>> findByLastNameAndFirstNameAllIgnoreCase(@RequestParam String lastName, @RequestParam String firstName){
         List<Producer> producers = producerService.findByLastNameAndFirstNameAllIgnoreCase(lastName, firstName);
@@ -47,11 +47,7 @@ public class ProducerController {
         return new ResponseEntity<>(producers, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Producer> addProducer(@RequestBody Producer producer){
-        return new ResponseEntity<>(producerService.save(producer), HttpStatus.OK);
-    }
-    @PostMapping("/update1/{id}")//Option1 - Load object, modify and save again
+    @PutMapping("/update1/{id}")//Option1 - Load object, modify and save again
     public ResponseEntity<Producer> updateProducerByIdLoadObject(@PathVariable Long id, @RequestBody Producer producer){
         Optional<Producer> producerOptional = producerService.findById(id);
         if (producerOptional.isPresent()){
@@ -68,13 +64,20 @@ public class ProducerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/update2/{id}")//Option2 - Create a custom query, withoud Loading the object
+    @PutMapping("/update2/{id}")//Option2 - Create a custom query, withoud Loading the object
     public ResponseEntity<HttpStatus> updateProducerByIdNoLoadObject(@PathVariable Long id, @RequestBody Producer producer){
         if (producerService.updateProducer(id, producer) == 1){
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id){
+            producerService.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
 
 

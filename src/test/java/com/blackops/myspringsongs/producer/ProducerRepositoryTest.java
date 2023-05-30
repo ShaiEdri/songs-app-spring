@@ -45,4 +45,12 @@ class ProducerRepositoryTest {
         assertTrue(producersFound.size() > 0);
         assertEquals(producersFound.get(0).getLastName(), LAST_NAME);
     }
+
+    @Test
+    void findByLastNameAndFirstNameAllIgnoreCase() {
+    }
+
+    @Test
+    void updateProducer() {
+    }
 }

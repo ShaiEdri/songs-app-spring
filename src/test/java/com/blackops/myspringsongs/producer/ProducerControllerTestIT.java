@@ -18,11 +18,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -69,21 +71,31 @@ class ProducerControllerTestIT {
         //assertNotEquals(producers.size(), 2);
     }
 
-//    @Test
-//    void deleteById() {
-//        producerService.save(producer1);
-//        //producerService.getProducers().stream().forEach(System.out::println);
-//        producerController.deleteById(2L);
-//        Optional<Producer> producerOptional = producerService.findById(2L);
-//        assertTrue(producerOptional.isEmpty());
-//    }
-//
-//    @Test
-//    void getProducerById() {
-//        producerService.save(producer1);
-//        Producer producer = producerController.getProducerById(2L).getBody();
-//        assertNotNull(producer);
-//    }
+    @Test
+    void deleteById() throws Exception {
+        Long id = 2L;
+        doNothing().when(producerService).deleteById(anyLong());
+        mockMvc.perform(delete("/producer/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+        verify(producerService, times(1)).deleteById(id);
+    }
+
+    @Test
+    void getProducerById() throws Exception {
+        Long id = 2L;
+        Optional<Producer> producerGetById = Optional.of(producer1);
+        // when
+        when(producerService.findById(anyLong())).thenReturn(producerGetById);
+        MvcResult mvcResult = mockMvc.perform(get("/producer/" + id))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        Producer found = new ObjectMapper().readValue(content,
+                new TypeReference<Producer>() {});
+
+        verify(producerService, times(1)).findById(id);
+    }
 //
 //    @Test
 //    void findByLastNameAndFirstNameAllIgnoreCase() {
