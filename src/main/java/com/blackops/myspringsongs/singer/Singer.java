@@ -4,6 +4,7 @@ import com.blackops.myspringsongs.shared.Person;
 import com.blackops.myspringsongs.song.Song;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Entity
 public class Singer extends Person {
 
-    @ManyToMany(mappedBy = "singers")
+    @ManyToMany(mappedBy = "singers", cascade = CascadeType.ALL)
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
