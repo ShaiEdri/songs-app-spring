@@ -75,8 +75,7 @@ class ProducerControllerTestIT {
     void deleteById() throws Exception {
         Long id = 2L;
         doNothing().when(producerService).deleteById(anyLong());
-        mockMvc.perform(delete("/producer/" + id)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/producer/" + id))
                         .andExpect(status().isOk());
         verify(producerService, times(1)).deleteById(id);
     }

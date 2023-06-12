@@ -18,6 +18,7 @@ public interface ProducerRepository extends JpaRepository<Producer, Long> {
      When using a modifying query method,
      Spring Data JPA automatically returns the number of affected rows as
      the result of the method execution
+     @Modifying will require a transaction
      */
     int updateProducer(Long id, @Param("producer") Producer producer);
 }

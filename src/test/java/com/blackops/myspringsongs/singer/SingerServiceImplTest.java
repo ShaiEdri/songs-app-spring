@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Component;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,26 +45,25 @@ class SingerServiceImplTest {
 
     @Test
     void findByLastName() {
-        singerRepository.saveAll(List.of(user1, user2));
-        List<Singer>singers = singerRepository.findAllByLastName("Doe");
+        singerService.saveSingers(List.of(user1, user2));
+        List<Singer>singers = singerService.findByLastName("Doe");
         assertEquals(1, singers.size());
         assertEquals("Doe", singers.get(0).getLastName());
     }
 
-//    @Test
-//    void getSingers() {
-//        HashSet singersData = new HashSet<>();
-//        singersData.add(singer);
-//
-//        Mockito.when(singerRepository.findAll()).thenReturn(singersData);
-//        Set<Singer> singers = singerService.getSingers();
-//        assertEquals(singers.size(), 1);
-//        Mockito.verify(singerRepository, times(1)).findAll();
-//
-//    }
+    @Test
+    void getSingers() {
+        singerRepository.saveAll(List.of(user1, user2));
+        List<Singer> singers = singerService.getSingers();
+        assertTrue(singers.size() > 1);
+    }
 
 
     @Test
     void deleteById() {
+        singerRepository.saveAll(List.of(user1, user2));
+        singerService.deleteById(1L);
+        List<Singer> singers = singerService.getSingers();
+        assertTrue(singers.size() == 1);
     }
 }

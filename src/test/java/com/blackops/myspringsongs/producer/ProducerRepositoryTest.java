@@ -7,6 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -22,7 +23,7 @@ class ProducerRepositoryTest {
     private final String LAST_NAME = "Israeli";
     @BeforeEach
     void setUp() {
-        testedProducer = Producer.builder().id(5L)
+        testedProducer = Producer.builder()
                 .firstName(FIRST_NAME).lastName(LAST_NAME).build();
     }
 
@@ -36,6 +37,7 @@ class ProducerRepositoryTest {
         assertTrue(producersFound.size() > 0);
         assertEquals(producersFound.get(0).getLastName(), LAST_NAME);
     }
+
     @Test
     void findByLastnameAndFirstnameAllIgnoreCaseTestUpper() {
         producerRepository.save(testedProducer);
@@ -46,9 +48,9 @@ class ProducerRepositoryTest {
         assertEquals(producersFound.get(0).getLastName(), LAST_NAME);
     }
 
-    @Test
-    void findByLastNameAndFirstNameAllIgnoreCase() {
-    }
+//    @Test
+//    void findByLastNameAndFirstNameAllIgnoreCase() {
+//    }
 
     @Test
     void updateProducer() {

@@ -1,5 +1,6 @@
 package com.blackops.myspringsongs.config;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -17,25 +18,18 @@ public class BeansConfig {
     @Autowired
     Environment env;
 
-    @Primary
-    @Profile("dev")
     @Bean
-    public DataSource getDataSourceMem() {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName("org.h2.Driver");
-        dataSourceBuilder.url(env.getProperty("spring.datasource.url"));
-        dataSourceBuilder.username("SHAI");
-        dataSourceBuilder.password("");
-        return dataSourceBuilder.build();
-    }
-
-
-    @Profile("qa")
-    @Bean
-    public DataSource getDataSourceFile(@Value("${my.drivername}") String driver) {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName(driver);
-        dataSourceBuilder.url(env.getProperty("spring.datasource.url"));
-        return dataSourceBuilder.build();
+    public DataSource stagingDataSource(
+            @Value("${my.drivername}")String drivername
+            ,@Value("${my.url}")String url
+            ,@Value("${my.username}")String username
+            ,@Value("${my.password}")String password
+    ) {
+        BasicDataSource bds = new BasicDataSource();
+        bds.setDriverClassName(drivername);
+        bds.setUrl(url);
+        bds.setUsername(username);
+        bds.setPassword(password);
+        return bds;
     }
 }
