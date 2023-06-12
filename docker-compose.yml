@@ -1,0 +1,44 @@
+version: '3'
+services:
+  srv:
+    container_name: srv
+    restart: unless-stopped
+    image: songs_srv
+    build:
+      context: .
+    environment:
+      DB_USER: bo_dev
+      DB_PASSWORD: pass12345
+      DB_NAME: songs
+      DB_PORT: 3307
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+  db:
+    container_name: db
+    image: songs_db
+    build:
+      context: ./DB-container
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_USER: bo_dev
+      MYSQL_PASSWORD: pass12345
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: songs
+    ports:
+      - "3307:3306"
+
+#  test:
+#    container_name: test
+#    image: test_app
+#    build:
+#      context: ./tests
+#    depends_on:
+#      - srv
+#      - db
+volumes:
+  mysql-data:
+    driver: local

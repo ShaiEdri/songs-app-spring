@@ -25,7 +25,7 @@ public class LoadData implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        //saveData();
+        saveData();
     }
     private void saveData() {
         Producer producer1 = Producer.builder().firstName("Nile")
