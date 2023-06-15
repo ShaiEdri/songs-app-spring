@@ -1,5 +1,28 @@
 version: '3'
 services:
+  grafana:
+    container_name: grafana
+    restart: unless-stopped
+    image: my-grafana
+    build:
+      context: grafana-container
+    user: root
+#    volumes:
+#      - grafana-data:/var/lib/grafana
+    links:
+      - prometheus
+    ports:
+      - "3000:3000"
+
+  prometheus:
+    container_name: prometheus
+    restart: unless-stopped
+    image: my-prometheus
+    build:
+      context: prometheus-container
+    ports:
+      - "9090:9090"
+
   srv:
     container_name: srv
     restart: unless-stopped
@@ -41,4 +64,6 @@ services:
 #      - db
 volumes:
   mysql-data:
+    driver: local
+  grafana-data:
     driver: local
